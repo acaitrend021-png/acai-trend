@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Açaí Trend 021</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f5f5;
+}
+
+.header {
+    background: #4B0082;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.container {
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.option {
+    margin: 8px 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+}
+
+.btn {
+    background: #4B0082;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 16px;
+}
+
+.total {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+🍇 Açaí Trend 021
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>👤 Seus dados</h3>
+<input type="text" id="nome" placeholder="Seu nome">
+<input type="text" id="endereco" placeholder="Endereço completo">
+</div>
+
+<div class="card">
+<h3>🛵 Entrega</h3>
+<select id="tipo">
+<option>Entrega</option>
+<option>Retirada</option>
+</select>
+</div>
+
+<div class="card">
+<h3>🥤 Escolha seu Açaí</h3>
+<select id="tamanho" onchange="calcular()">
+<option value="10">250ml - R$10</option>
+<option value="15">350ml - R$15</option>
+<option value="16">400ml - R$16</option>
+<option value="18">500ml - R$18</option>
+<option value="20">700ml - R$20</option>
+<option value="32">1 Litro - R$32</option>
+</select>
+</div>
+
+<div class="card">
+<h3>🍫 Complementos</h3>
+
+<div class="option"><input type="checkbox" value="Granola"> Granola</div>
+<div class="option"><input type="checkbox" value="Aveia"> Aveia</div>
+<div class="option"><input type="checkbox" value="Chocoboll"> Chocoboll</div>
+<div class="option"><input type="checkbox" value="Amendoim"> Amendoim</div>
+<div class="option"><input type="checkbox" value="Paçoca"> Paçoca</div>
+<div class="option"><input type="checkbox" value="Confete"> Confete</div>
+<div class="option"><input type="checkbox" value="Canudo"> Canudo</div>
+
+</div>
+
+<div class="card">
+<h3>🍓 Caldas</h3>
+
+<div class="option"><input type="checkbox" value="Chocolate"> Chocolate</div>
+<div class="option"><input type="checkbox" value="Morango"> Morango</div>
+<div class="option"><input type="checkbox" value="Leite condensado"> Leite condensado</div>
+
+</div>
+
+<div class="card">
+<h3>🔥 Premium (+R$3)</h3>
+
+<div class="option"><input type="checkbox" class="premium" value="Nutella" onchange="calcular()"> Nutella</div>
+<div class="option"><input type="checkbox" class="premium" value="Creme de chocolate" onchange="calcular()"> Creme de chocolate</div>
+
+</div>
+
+<div class="card">
+<h3>💳 Pagamento</h3>
+<select id="pagamento">
+<option>Pix</option>
+<option>Dinheiro</option>
+</select>
+</div>
+
+<div class="card">
+<h3>📝 Observação</h3>
+<input type="text" id="obs" placeholder="Ex: sem amendoim">
+</div>
+
+</div>
+
+<div class="footer">
+<div class="total" id="total">Total: R$ 10</div>
+<button class="btn" onclick="enviarPedido()">Finalizar Pedido</button>
+</div>
+
+<script>
+function calcular() {
+    let tamanho = parseFloat(document.getElementById("tamanho").value);
+    let premium = document.querySelectorAll(".premium:checked").length * 3;
+    let total = tamanho + premium;
+    document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
+}
+
+function enviarPedido() {
+    let nome = document.getElementById("nome").value;
+    let endereco = document.getElementById("endereco").value;
+    let tipo = document.getElementById("tipo").value;
+    let tamanhoTexto = document.getElementById("tamanho").selectedOptions[0].text;
+    let pagamento = document.getElementById("pagamento").value;
+    let obs = document.getElementById("obs").value;
+
+    let adicionais = [];
+    document.querySelectorAll("input[type=checkbox]:checked").forEach(el => {
+        adicionais.push(el.value);
+    });
+
+    let total = document.getElementById("total").innerText;
+
+    let mensagem = `🍇 *Pedido Açaí Trend 021*
+
+👤 Nome: ${nome}
+📍 Endereço: ${endereco}
+🛵 Tipo: ${tipo}
+
+🥤 ${tamanhoTexto}
+➕ ${adicionais.join(", ")}
+
+💳 ${pagamento}
+📝 ${obs}
+
+💰 ${total}`;
+
+    let numero = "5521969653583";
+
+    window.open("https://wa.me/" + numero + "?text=" + encodeURIComponent(mensagem));
+}
+
+calcular();
+</script>
+
+</body>
+</html>
