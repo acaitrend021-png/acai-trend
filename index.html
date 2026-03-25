@@ -9,14 +9,14 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: #f5f5f5;
+    background: #f2f2f2;
 }
 
 .header {
-    background: url('https://images.unsplash.com/photo-1625944525903-b5c0bfa4d6e0');
-    background-size: cover;
+    background: linear-gradient(135deg,#4B0082,#6a0dad);
     color: white;
-    padding: 40px 20px;
+    padding: 20px;
+    text-align: center;
     font-size: 22px;
     font-weight: bold;
 }
@@ -30,10 +30,16 @@ body {
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
 h3 {
+    margin-top: 0;
     color: #4B0082;
+}
+
+.option {
+    margin: 6px 0;
 }
 
 input, select {
@@ -50,7 +56,7 @@ input, select {
     width: 100%;
     background: white;
     padding: 10px;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
 }
 
 .btn {
@@ -65,15 +71,17 @@ input, select {
 
 .total {
     font-weight: bold;
+    margin-bottom: 8px;
     color: #4B0082;
     font-size: 18px;
 }
 
-.resumo {
-    background: #fff;
+.pix-box {
+    background: #e6ffe6;
     padding: 10px;
     border-radius: 10px;
-    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
 }
 </style>
 </head>
@@ -81,28 +89,29 @@ input, select {
 <body>
 
 <div class="header">
-🍇 Açaí Trend 021<br>
-Monte seu açaí do seu jeito
+🍇 Açaí Trend 021
 </div>
 
 <div class="container">
 
 <div class="card">
-<h3>👤 Dados</h3>
-<input id="nome" placeholder="Seu nome">
-<input id="endereco" placeholder="Endereço">
+<h3>👤 Nome</h3>
+<input type="text" id="nome" placeholder="Seu nome">
+
+<h3>📍 Endereço</h3>
+<input type="text" id="endereco" placeholder="Rua, número, bairro">
 </div>
 
 <div class="card">
-<h3>🛵 Entrega</h3>
-<select id="tipo" onchange="calcular()">
-<option value="0">Retirada (Grátis)</option>
-<option value="5">Entrega (+R$5)</option>
+<h3>🛵 Tipo</h3>
+<select id="tipo">
+<option>Entrega</option>
+<option>Retirada</option>
 </select>
 </div>
 
 <div class="card">
-<h3>🥤 Tamanho</h3>
+<h3>🥤 Tamanho do Açaí</h3>
 <select id="tamanho" onchange="calcular()">
 <option value="10">250ml - R$10</option>
 <option value="15">350ml - R$15</option>
@@ -114,77 +123,107 @@ Monte seu açaí do seu jeito
 </div>
 
 <div class="card">
-<h3>🔥 Premium</h3>
-<label><input type="checkbox" class="premium" value="Nutella" onchange="calcular()"> Nutella (+3)</label><br>
-<label><input type="checkbox" class="premium" value="Creme de chocolate" onchange="calcular()"> Creme de chocolate (+3)</label>
+<h3>🍫 Complementos</h3>
+<div class="option"><input type="checkbox" value="Granola"> Granola</div>
+<div class="option"><input type="checkbox" value="Aveia"> Aveia</div>
+<div class="option"><input type="checkbox" value="Chocoboll"> Chocoboll</div>
+<div class="option"><input type="checkbox" value="Amendoim"> Amendoim</div>
+<div class="option"><input type="checkbox" value="Paçoca"> Paçoca</div>
+<div class="option"><input type="checkbox" value="Confete"> Confete</div>
+<div class="option"><input type="checkbox" value="Canudo biscoito"> Canudo</div>
 </div>
 
 <div class="card">
-<h3>🥤 Garrafa</h3>
+<h3>🍓 Caldas</h3>
+<div class="option"><input type="checkbox" value="Chocolate"> Chocolate</div>
+<div class="option"><input type="checkbox" value="Morango"> Morango</div>
+<div class="option"><input type="checkbox" value="Leite condensado"> Leite condensado</div>
+</div>
+
+<div class="card">
+<h3>🔥 Premium (+R$3)</h3>
+<div class="option"><input type="checkbox" class="premium" value="Nutella" onchange="calcular()"> Nutella</div>
+<div class="option"><input type="checkbox" class="premium" value="Creme de chocolate" onchange="calcular()"> Creme de chocolate</div>
+</div>
+
+<div class="card">
+<h3>🥤 Açaí na Garrafa</h3>
 <select id="garrafa" onchange="calcular()">
 <option value="0">Não quero</option>
-<option value="11">300ml - R$11</option>
-<option value="16">500ml - R$16</option>
+<option value="11">300ml - R$11,00</option>
+<option value="16">500ml - R$16,00</option>
 </select>
 </div>
 
-<div class="card">
-<h3>📦 Resumo do pedido</h3>
-<div id="resumo" class="resumo">Nenhum item selecionado</div>
+<div class="card pix-box">
+💳 Pagamento via PIX, enviar comprovante apos pagamento<br>
+<strong>Chave PIX:</strong><br>
+<span id="pix">21969653583</span><br><br>
+<button onclick="copiarPix()">Copiar PIX</button>
 </div>
 
 <div class="card">
-💳 Pagamento: PIX apos pagamento envie seu comprovante<br>
-📌 Chave: <b id="pix">21969653583</b><br><br>
-<button onclick="copiarPix()">Copiar PIX</button>
+<h3>📝 Observação</h3>
+<input type="text" id="obs" placeholder="Ex: sem amendoim">
 </div>
 
 </div>
 
 <div class="footer">
 <div class="total" id="total">Total: R$ 10</div>
-<button class="btn" onclick="pedido()">Finalizar Pedido</button>
+<button class="btn" onclick="enviarPedido()">Finalizar Pedido</button>
 </div>
 
 <script>
 function calcular() {
     let tamanho = parseFloat(document.getElementById("tamanho").value);
-    let entrega = parseFloat(document.getElementById("tipo").value);
-    let garrafa = parseFloat(document.getElementById("garrafa").value);
     let premium = document.querySelectorAll(".premium:checked").length * 3;
+    let garrafa = parseFloat(document.getElementById("garrafa").value);
 
-    let total = tamanho + entrega + garrafa + premium;
+    let total = tamanho + premium + garrafa;
 
     document.getElementById("total").innerText = "Total: R$ " + total.toFixed(2);
-
-    document.getElementById("resumo").innerText =
-        "Açaí: R$" + tamanho +
-        " | Entrega: R$" + entrega +
-        " | Garrafa: R$" + garrafa +
-        " | Premium: R$" + premium;
 }
 
 function copiarPix() {
-    navigator.clipboard.writeText(document.getElementById("pix").innerText);
+    let pix = document.getElementById("pix").innerText;
+    navigator.clipboard.writeText(pix);
     alert("PIX copiado!");
 }
 
-function pedido() {
+function enviarPedido() {
     let nome = document.getElementById("nome").value;
     let endereco = document.getElementById("endereco").value;
+    let tipo = document.getElementById("tipo").value;
+    let tamanhoTexto = document.getElementById("tamanho").selectedOptions[0].text;
+    let garrafaTexto = document.getElementById("garrafa").selectedOptions[0].text;
+    let obs = document.getElementById("obs").value;
+
+    let adicionais = [];
+    document.querySelectorAll("input[type=checkbox]:checked").forEach(el => {
+        adicionais.push(el.value);
+    });
+
     let total = document.getElementById("total").innerText;
 
-    let numero = "5521969653583";
-
-    let msg = `🍇 Pedido Açaí Trend 021
+    let mensagem = `🍇 Pedido Açaí Trend 021
 
 👤 ${nome}
 📍 ${endereco}
+🛵 ${tipo}
 
-💰 ${total}
-💳 PIX`;
+🥤 ${tamanhoTexto}
+🥤 Garrafa: ${garrafaTexto}
+➕ ${adicionais.join(", ")}
 
-    window.open("https://wa.me/" + numero + "?text=" + encodeURIComponent(msg));
+💳 Pagamento: PIX
+📝 ${obs}
+
+💰 ${total}`;
+
+    let numero = "5521969653583";
+
+    window.open("https://wa.me/" + numero + "?text=" + encodeURIComponent(mensagem));
 }
 
 calcular();
